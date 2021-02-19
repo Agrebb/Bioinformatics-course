@@ -33,7 +33,9 @@ int main(){
     string s;
     cin >> s;
     auto coins = parse_string(s);
-    vector <int> dp(n+1, n+1);
+
+    const int inf = (int)1e9;
+    vector <int> dp(n+1, inf);
     dp[0] = 0;
     for (int i = 1; i <= n; i++){
         for (auto coin : coins){

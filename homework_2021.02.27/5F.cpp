@@ -9,7 +9,7 @@ int main(){
     freopen("../input.txt", "r", stdin);
     freopen("../output.txt", "w", stdout);
     //I read the table from the same input file as the two strings.
-    //I removed letters from left of the file (for convenience).
+    //I removed letters from left of the table (for convenience).
     const int letters_used = 20, alphabet_size = 26;
     char letters[letters_used];
     for (int i = 0; i < letters_used; i++) cin >> letters[i];
@@ -25,7 +25,6 @@ int main(){
     cin >> s >> t;
     int n = s.length(), m = t.length();
 
-    const int inf = (int)1e9;
     vector <vector<pair<int, int>>> dp(n+1, vector<pair<int, int>>(m+1, {0, -1}));
     int maxi = 0, maxj = 0;
     for (int i = 0; i <= n; i++){
