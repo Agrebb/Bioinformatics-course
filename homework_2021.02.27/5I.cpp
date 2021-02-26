@@ -15,34 +15,34 @@ int main(){
     const int inf = (int)1e9;
     vector <vector<pair<int, int>>> dp(n+1, vector<pair<int, int>>(m+1, {-inf, -1}));
     dp[0][0] = {0, -1};
-    int maxi = 0;
+    int maxj = 0;
     for (int i = 0; i <= n; i++){
         for (int j = 0; j <= m; j++){
             if (i > 0) dp[i][j] = dp[0][j];
 
             if (j > 0) {
-                int value1 = dp[i][j - 1].first - 1;
+                int value1 = dp[i][j - 1].first - 2;
                 if (dp[i][j].first < value1) dp[i][j] = {value1, 1};
             }
             if (i > 0) {
-                int value2 = dp[i - 1][j].first - 1;
+                int value2 = dp[i - 1][j].first - 2;
                 if (dp[i][j].first < value2) dp[i][j] = {value2, 2};
             }
             if (i > 0 && j > 0) {
-                int value3 = dp[i - 1][j - 1].first + (s[i-1] == t[j-1] ? 1 : -1);
+                int value3 = dp[i - 1][j - 1].first + (s[i-1] == t[j-1] ? 1 : -2);
                 if (dp[i][j].first < value3) {
                     dp[i][j] = {value3, 3};
                 }
             }
-        }
-        if (dp[i][m] > dp[maxi][m]){
-            maxi = i;
+            if (i == n && dp[i][j] > dp[i][maxj]){
+                maxj = j;
+            }
         }
     }
 
-    cout << dp[maxi][m].first << "\n";
+    cout << dp[n][maxj].first << "\n";
     string lcs_s, lcs_t;
-    int cur_i = maxi, cur_j = m;
+    int cur_i = n, cur_j = maxj;
     while (true){
         int type = dp[cur_i][cur_j].second;
         if (type == -1) break;
