@@ -9,7 +9,7 @@ using namespace std;
 
 map<char, int> inv_letters{{'A', 0}, {'C', 1}, {'G', 2}, {'T', 3}};
 
-int get_most_probable (string & s, int k, vector<vector<double>> & profile){
+int get_most_probable (string & s, int k, vector<vector<int>> & profile){
     double max_prob = 0;
     int index = 0;
     for (int i = 0; i <= s.length() - k; i++){
@@ -25,7 +25,7 @@ int get_most_probable (string & s, int k, vector<vector<double>> & profile){
     return index;
 }
 
-void update_profile(string & s, int k, vector <vector<double>> & profile){
+void update_profile(string & s, int k, vector <vector<int>> & profile){
     for (int i = 0; i <= s.length() - k; i++){
         for (int j = 0; j < k; j++) profile[inv_letters[s[i+j]]][j]++;
     }
@@ -40,13 +40,13 @@ int main(){
     vector <string> dna(t);
     for (int i = 0; i < t; i++) cin >> dna[i];
 
-    const double inf = 1e9;
-    double best_score = inf;
+    const int inf = (int)1e9;
+    int best_score = inf;
     vector <string> best_motifs;
     for (int i = 0; i <= dna[0].length() - k; i++){
         vector <string> motifs;
 
-        vector <vector<double>> profile (4, vector <double>(k, 1));
+        vector <vector<int>> profile (4, vector <int>(k, 1));
         string new_motif;
         for (int j = 0; j < k; j++) new_motif.push_back(dna[0][i+j]);
         update_profile(new_motif, k, profile);
@@ -60,9 +60,9 @@ int main(){
             motifs.push_back(new_motif);
         }
 
-        double score = 0;
+        int score = 0;
         for (int j = 0; j < k; j++){
-            double maxx = 0, summ = 0;
+            int maxx = 0, summ = 0;
             for (int p = 0; p < 4; p++){
                 maxx = max(maxx, profile[p][j]);
                 summ += profile[p][j];
