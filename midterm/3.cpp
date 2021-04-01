@@ -54,6 +54,12 @@ void get_cycle(string v, map<string, vector<string>> & graph, vector <string> & 
     answer.push_back(v);
 }
 
+int recover (char c){
+    int x = (int) c;
+    if (x < 0) x = 256 + x;
+    return x;
+}
+
 int main(){
     freopen("../input.txt", "r", stdin);
     freopen("../output.txt", "w", stdout);
@@ -126,7 +132,9 @@ int main(){
     for (int i = 0; i < sorted.size(); i++){
         if (i >= N && sorted[i].first != sorted[i-1].first) break;
         string kmer;
-        for (int x : sorted[i].second) kmer.push_back((char)(x - 57));
+        for (int x : sorted[i].second){
+            kmer.push_back((char)(x));
+        }
         kmers.push_back(kmer);
     }
 
@@ -189,9 +197,9 @@ int main(){
         vector <int> masses;
         for (int i = 0; i < answer.size(); i++){
             if (i == 0){
-                for (char c : answer[(i + start_index) % answer.size()]) masses.push_back((int)(c) + 57);
+                for (char c : answer[(i + start_index) % answer.size()]) masses.push_back(recover(c));
             }
-            masses.push_back((int)(answer[(i + start_index) % answer.size()].back()) + 57);
+            masses.push_back(recover(answer[(i + start_index) % answer.size()].back()));
         }
         for (int i = 0; i < masses.size(); i++){
             if (i > 0) cout << "-";
@@ -229,7 +237,7 @@ int main(){
         for (string path : paths){
             vector <int> masses;
             for (char c : path){
-                masses.push_back((int)(c) + 57);
+                masses.push_back(recover(c));
             }
             for (int i = 0; i < masses.size(); i++){
                 if (i > 0) cout << "-";
